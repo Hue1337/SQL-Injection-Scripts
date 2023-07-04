@@ -1,2 +1,2 @@
 # SQL Injection Scripts
-- educatinial purpose only
+- educational purpose only
