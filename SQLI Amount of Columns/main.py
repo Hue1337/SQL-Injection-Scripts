@@ -52,18 +52,6 @@ class AmountOfColumnsFinder:
         self.print_red('[-] Amount of columns not found.')
         exit()
 
-    ''' 
-    ##################################################################################################################
-    '''
-
-    '''
-    TO DO:
-     - zobaczyc jak wyglada response od order_by ze zbyt mala ilosc kolumn z zapytanie do zlej bazy danych 
-     - reuesty do bazy oracle
-    '''
-
-    ''' Binary search algoruthm methods '''
-
     def binary_search_method(self) -> None:
         self.bs_payload()
         previous = self.__amount_of_columns
@@ -109,43 +97,12 @@ class AmountOfColumnsFinder:
         response = requests.get(final_url)
         self.print_green(response)
 
-    def test_bs_tun(self) -> None:
-        self.binary_search_method()
-        # self.print_green(self.bs_payload())
-        # self.bs_change_columns()
-        # self.print_green(self.encode_url(self.bs_payload()))
-        # tmp_url = self.encode_url(self.bs_payload())
-        # self.bs_request(tmp_url)
-        # self.__bs_orderby_int = 0
-        # self.bs_payload()
-        # print(self.__db_exploit)
-        # self.__bs_orderby_int = 10
-        # self.bs_payload()
-        # print(self.__db_exploit)
-
-    ''' 
-    ##################################################################################################################
-    '''
-
     def run(self):
         if self.__method == 1:
             self.queue_method()
         else:
             self.binary_serach_method()
 
-    def test_run(self):
-        self.show_data()
-        self.make_request()
-        self.add_nulls()
-        self.make_request()
-        self.add_nulls()
-        self.make_request()
-
-    def test_data_run(self):
-        self.show_data()
-        self.configure_exploit()
-        self.add_nulls()
-        self.show_data()
 
     ''' Data '''
 
@@ -236,6 +193,4 @@ if __name__ == '__main__':
                         help='Please provide the methos: binary search (1) or brute search (2)')
     args = parser.parse_args()
 
-    # bs = AmountOfColumns(args.url[0], args.param_name[0], args.amount_of_columns[0], args.method[0])
     bs = AmountOfColumnsFinder(args.url[0], args.param_name[0], args.amount_of_columns[0])
-    bs.test_bs_tun()
